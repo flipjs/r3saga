@@ -25,6 +25,7 @@ export class HomeView extends React.Component<void, Props, void> {
   static propTypes = {
     counter: PropTypes.number.isRequired,
     doubleAsync: PropTypes.func.isRequired,
+    incrementAsync: PropTypes.func,
     increment: PropTypes.func.isRequired
   };
 
@@ -51,6 +52,10 @@ export class HomeView extends React.Component<void, Props, void> {
         <button className='btn btn-default' onClick={this.props.doubleAsync}>
           Double (Async)
         </button>
+        {' '}
+        <button className='btn btn-default' onClick={this.props.incrementAsync}>
+          Increment Saga Async
+        </button>
       </div>
     )
   }
@@ -61,5 +66,6 @@ const mapStateToProps = (state) => ({
 })
 export default connect((mapStateToProps), {
   increment: () => increment(1),
+  incrementAsync: () => ({type: 'COUNTER_INCREMENT_ASYNC'}),
   doubleAsync
 })(HomeView)

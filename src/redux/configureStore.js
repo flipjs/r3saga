@@ -1,11 +1,19 @@
 import { applyMiddleware, compose, createStore } from 'redux'
 import thunk from 'redux-thunk'
+import createSagaMiddleware from 'redux-saga'
 import rootReducer from './rootReducer'
 import { routerMiddleware } from 'react-router-redux'
 
+import { helloWorld } from '../sagas/helloWorld'
+import { watchIncrementAsync } from '../sagas/incrementAsync'
+
 export default function configureStore (initialState = {}, history) {
   // Compose final middleware and use devtools in debug environment
-  let middleware = applyMiddleware(thunk, routerMiddleware(history))
+  let middleware = applyMiddleware(
+    thunk,
+    createSagaMiddleware(helloWorld, watchIncrementAsync),
+    routerMiddleware(history)
+  )
   if (__DEBUG__) {
     const devTools = window.devToolsExtension
       ? window.devToolsExtension()
